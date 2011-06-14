@@ -1,0 +1,11 @@
+= Rails3 Templates
+
+Just our Rails 3 template and some bash functions.
+
+=== Updates
+
+Fork it, tweak it, check it in and send me a pull request.  I'll merge it if it makes sense.
+
+We hope someone finds it useful.
+
+Copyright (c) 2011 Midwire Technologies, LLC, released under the MIT license
