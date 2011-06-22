@@ -9,6 +9,7 @@ inject_into_file 'config/application.rb', :after => "config.filter_parameters +=
     # Customize generators
     config.generators do |g|
       g.stylesheets false
+      g.form_builder :simple_form
       g.test_framework :rspec
       g.fallbacks[:rspec] = :shoulda
       g.fallbacks[:shoulda] = :test_unit
@@ -21,22 +22,23 @@ append_file "Gemfile", <<-END
 
 gem 'haml', '>= 3.0.0'
 gem 'haml-rails'
-gem 'sass'
 gem "compass", ">= 0.11.3"
 gem 'jquery-rails'
+gem 'simple_form'
 
 group :development do
   gem "rails3-generators"
   gem "rails-erd"
   gem "nifty-generators", "~> 0.4.2"
   gem "ruby-prof"
+  gem "erb2haml"
 end
 
 group :development, :test do
-  gem "rspec-rails", ">= 2.0.1", :group => [ :development, :test ]
-  gem "factory_girl_rails", :group => [ :development, :test ]
-  gem 'cucumber-rails', :group => [:development, :test]
-  gem 'capybara', :group => [:development, :test]
+  gem "rspec-rails", ">= 2.0.1"
+  gem "factory_girl_rails"
+  gem 'cucumber-rails'
+  gem 'capybara'
 end
 
 group :test do
@@ -80,11 +82,13 @@ run ". .rvmrc; rake db:create"
 
 # Generators
 run ". .rvmrc; rails generate nifty:layout --haml"
+run ". .rvmrc; rails generate simple_form:install"
 run ". .rvmrc; rails generate nifty:config"
 run '. .rvmrc; rails generate jquery:install --ui'
 run '. .rvmrc; rails generate rspec:install'
 inject_into_file 'spec/spec_helper.rb', "\nrequire 'factory_girl'", :after => "require 'rspec/rails'"
-run "compass create . --using blueprint --syntax sass"
+run "compass create . --using blueprint --syntax scss --css-dir 'public/stylesheets' --sass-dir 'app/stylesheets' --app rails"
+run "echo '--format documentation' >> .rspec"
 
 inject_into_file 'app/views/layouts/application.html.haml', :before => '    = stylesheet_link_tag "application"' do
   <<-EOF
@@ -113,7 +117,6 @@ git :init
 git :add => "."
 git :commit => '-m "Initial import."'
 
-#compass init rails . -r html5-boilerplate -u html5-boilerplate --force
 puts <<-NOTES
 Party On!!!
 NOTES
