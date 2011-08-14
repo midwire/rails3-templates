@@ -88,6 +88,7 @@ run '. .rvmrc; rails generate jquery:install --ui'
 run '. .rvmrc; rails generate rspec:install'
 inject_into_file 'spec/spec_helper.rb', "\nrequire 'factory_girl'", :after => "require 'rspec/rails'"
 run "compass create . --using blueprint --syntax scss --css-dir 'public/stylesheets' --sass-dir 'app/stylesheets' --app rails"
+run "compass install blueprint"
 run "echo '--format documentation' >> .rspec"
 
 inject_into_file 'app/views/layouts/application.html.haml', :before => '    = stylesheet_link_tag "application"' do
